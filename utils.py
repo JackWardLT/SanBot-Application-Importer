@@ -1,5 +1,7 @@
 import subprocess
 #Functions file
+rute = r"\app\build\outputs\apk\debug\app-debug.apk"
+
 
 #Function for parsing dir messages.
 #Do some for loop, where you take one line  and check if it has <DIR>. if it has <DIR> its a subdirectory which means we can get what ever the name is after.
@@ -19,17 +21,23 @@ import subprocess
 # 2. path arg 
 
 def upload(path): 
-    try:
-        connConfirmation = subprocess.run("adb devices", capture_output=True, text=True, shell=True)
-    except: 
-        print(f"error: {connConfirmation.stderr}")
+    getDevices = subprocess.run("adb devices", capture_output=True, text=True, shell=True)
+    devices = parseAdbDevices(getDevices.stdout)     
+    device = chooseFromList(devices)   
+    try: 
+        subprocess.run(f"adb -s {device} install {path}{rute}")
+    except Exception as e: 
+        print(f"error: {e}")
     
-    # Search feature
 
-    
-
-    print("test")
-
+def parseAdbDevices(message): 
+    devices = []
+    splitStringes = message.splitlines()
+    splitStringes = " ".join(splitStringes).split()
+    for index, line in enumerate(splitStringes): 
+        if line == "device":
+            devices.append(splitStringes[index-1])
+    return devices
 
 def parseProjectFile(message):
     dirList = []
@@ -48,6 +56,3 @@ def chooseFromList(list):
         index += 1
         print(f"[{index}] - {application}")
     return (list[int(input("Which one do you choose: "))-1])
-    
-
-
