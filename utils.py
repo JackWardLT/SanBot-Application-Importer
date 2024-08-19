@@ -18,11 +18,14 @@ import subprocess
 # 1. adb devices  -> 40100100420caa8848cf
 # 2. path arg 
 
-def upload(): 
+def upload(path): 
     try:
         connConfirmation = subprocess.run("adb devices", capture_output=True, text=True, shell=True)
     except: 
         print(f"error: {connConfirmation.stderr}")
     
+    # Search feature
+
     
+
     print("test")
