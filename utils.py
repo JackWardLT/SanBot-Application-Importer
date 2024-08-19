@@ -29,3 +29,18 @@ def upload(path):
     
 
     print("test")
+
+
+def parseProjectFile(message):
+    dirList = []
+    splitStringLines = message.splitlines()
+    for x in splitStringLines:
+        if "<DIR>" in x:
+            splitString = x.split()
+            getDirName = splitString[3:]
+            fixName = " ".join(getDirName)
+            # Filter out '.' and '..'
+            if fixName not in ('.', '..'):
+                dirList.append(fixName)
+    
+    print(dirList)
