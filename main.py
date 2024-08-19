@@ -10,8 +10,7 @@ try:
     currentProjects = subprocess.run("dir", capture_output=True, text=True, shell=True, cwd=projectPath)
     print("Select application you want to import to Sanbot: ")
     print(currentProjects.stdout)
-    print("\n\nTesting:")
-    parseProjectFile(currentProjects.stdout)
+    print(chooseFromList(parseProjectFile(currentProjects.stdout)))
     
 except Exception as e: 
      print(f"error: {e}")

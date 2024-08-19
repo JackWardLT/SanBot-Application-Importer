@@ -34,13 +34,20 @@ def upload(path):
 def parseProjectFile(message):
     dirList = []
     splitStringLines = message.splitlines()
-    for x in splitStringLines:
-        if "<DIR>" in x:
-            splitString = x.split()
-            getDirName = splitString[3:]
-            fixName = " ".join(getDirName)
-            # Filter out '.' and '..'
+    for line in splitStringLines:
+        if "<DIR>" in line:
+            fixName = " ".join(line.split()[3:])
             if fixName not in ('.', '..'):
                 dirList.append(fixName)
+    return dirList
+
+def chooseFromList(list):
+    index = 0
+    print(f"Choose a project to upload: ")
+    for application in list:
+        index += 1
+        print(f"[{index}] - {application}")
+    return (list[int(input("Which one do you choose: "))-1])
     
-    print(dirList)
+
+
