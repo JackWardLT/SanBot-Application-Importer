@@ -1,5 +1,7 @@
 import subprocess
+import utils 
 
+utils.upload()
 
 projectPath = input("Path to your projects: ")
 print("Your new project folder is " + projectPath)
