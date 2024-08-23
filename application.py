@@ -9,9 +9,12 @@ def pickDirectory():
     if path:
         print(f"Selected directory: {path}\n")
         addPathSQL(path)
-        # SQL FETCH TEST, TOMMOROW WHY DO I FETCH SO MANY!!!!
-        fetched_data = fetchPathData('DIR')
-        print(f"Fetched data: {fetched_data}\n")
+        print(f"Fetched data: {fetchPathData()}\n")
+        header.configure(text=f"{dirLabel()}")
+
+def dirLabel():
+    return "Choose Directory" if dirCounter() else fetchPathData()
+    
 
 # Initialize customtkinter
 customtkinter.set_appearance_mode("System")  # Modes: "System" (default), "Dark", "Light"
@@ -21,7 +24,8 @@ window = customtkinter.CTk()  # Use CTk instead of Tk
 window.title('SanBot Application Importer')
 
 directoryButton = customtkinter.CTkButton(window, text="Pick Folder", width=200, command=pickDirectory)
-header = customtkinter.CTkLabel(window, text="Choose a directory: ")
+header = customtkinter.CTkLabel(window, text=f"{dirLabel()}")
+
 
 header.grid(row=0, column=0, padx=100, pady=100)
 directoryButton.grid(row=0, column=1)
