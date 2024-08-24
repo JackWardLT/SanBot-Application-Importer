@@ -4,8 +4,9 @@ from database import *
 import customtkinter
 
 def pickDirectory():
-    fetchRecent()
     print("pickDirectory function called\n")
+    # fetchRecent()
+    getPopularityList()
     path = filedialog.askdirectory(title="What is your folder for all your projects", initialdir="/")
     if path:
         print(f"Selected directory: {path}\n")

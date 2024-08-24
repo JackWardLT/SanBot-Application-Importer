@@ -66,32 +66,36 @@ testCursor.execute('''CREATE TABLE IF NOT EXISTS test (
                    recent BOOLEAN, 
                    popularity INTEGER)''')
 
-#   update database    #
+#   update table    #
 def addPath(path): 
     testCursor.execute('''SELECT path FROM test WHERE path = ?''', (path,))
     if not testCursor.fetchall(): 
-        # print("not found...")
-        testCursor.execute('''INSERT INTO test (path, recent, popularity) VALUES (?, ?, ?)''', (path, True, 1))
-        # print(testCursor.execute('''SELECT * FROM test''').fetchall())
+        testCursor.execute('''INSERT INTO test (path, recent, popularity) VALUES (?, ?, ?)''', 
+                           (path, True, 1))
     else:
-        elements = testCursor.execute('''SELECT path, recent, popularity FROM test WHERE path = ?''', (path, )).fetchall()
-        # print(elements)
-
-        # recentNum = elements[0][1]
+        elements = testCursor.execute('''SELECT path, recent, popularity FROM test WHERE path = ?''', 
+                                      (path, )).fetchall()
         popularNum = elements[0][2]
-        testCursor.execute('''UPDATE test SET recent = ?, popularity = ? WHERE path = ?''', (True, popularNum+1, path))
-        
-        # elements = testCursor.execute('''SELECT path, recent, popularity FROM test WHERE path = ?''', (path, )).fetchall()
-        # print(elements)
+        testCursor.execute('''UPDATE test SET recent = ?, popularity = ? WHERE path = ?''', 
+                           (True, popularNum+1, path))
 
     testCursor.execute('''UPDATE test SET recent = ? WHERE PATH != ?''', (False, path))
 
 #   Find the most recent pick   #
 def fetchRecent(): 
-    return testCursor.execute('''SELECT path FROM test WHERE recent = ?''', (True, )).fetchall()[0][0]
+    return testCursor.execute('''SELECT path FROM test WHERE recent = ?''', 
+                              (True, )).fetchall()[0][0]
 
+#   Creating list of popular paths without the recently picked path  #
 def getPopularityList(): 
-    print()
+    returnList = []
+    popularityList = testCursor.execute('''SELECT path, recent, popularity 
+                                        FROM test WHERE path != ?''', (fetchRecent(), )).fetchall()
+    sortedList = sorted(popularityList, key=lambda x: x[2], reverse=True)
+    
+    for val in sortedList:
+        returnList.append(val[0])
+    return returnList
 
 def close():
     testCon.commit()
