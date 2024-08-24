@@ -6,9 +6,20 @@ import sqlite3
 
 dataBaseConnection = sqlite3.connect("lastPath.db")
 cursor = dataBaseConnection.cursor()
+
+testDataBaseConnection = sqlite3.connect("testDataBase.db")
+testApplications = testDataBaseConnection.cursor()
+# TIL DETTE SÅ MÅ VI NESTEN SE PÅ GAMMEL KODE AN UPDATE IT, FRA UTILS OG MAIN
+
+
+
 # Command TableName (ColoumnName DataType)
 cursor.execute('''CREATE TABLE IF NOT EXISTS Directory (
                ProjectPath TEXT NOT NULL)''')
+
+testApplications.execute('''CREATE TABLE IF NOT EXISTS Applications 
+                         (ApplicationPath TEXT PRIMARY KEY)''')
+
 
 def addPathSQL(path):
     cursor.execute(''' DELETE FROM DIRECTORY''')
@@ -25,3 +36,5 @@ def fetchPathData():
 def dirCounter():
     cursor.execute('''SELECT COUNT (*) FROM Directory''')
     return (cursor.fetchone()[0] == 0)
+
+

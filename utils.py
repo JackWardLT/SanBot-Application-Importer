@@ -10,7 +10,6 @@ def upload(path):
         subprocess.run(f"adb -s {device} install {path}{rute}")
     except Exception as e: 
         print(f"error: {e}")
-    
 
 def parseAdbDevices(message): 
     devices = []
