@@ -14,8 +14,3 @@ try:
     upload(projectPath + "\\" + choice)
 except Exception as e: 
     print(f"error: {e}")
-
-
-
-
-

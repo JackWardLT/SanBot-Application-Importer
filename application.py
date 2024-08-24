@@ -4,17 +4,19 @@ from database import *
 import customtkinter
 
 def pickDirectory():
+    fetchRecent()
     print("pickDirectory function called\n")
     path = filedialog.askdirectory(title="What is your folder for all your projects", initialdir="/")
     if path:
         print(f"Selected directory: {path}\n")
-        addPathSQL(path)
-        addPathMemory(path)
-        print(f"Fetched data: {fetchPathData()}\n")
-        header.configure(text=f"{dirLabel()}")
-        printList()
-        dropDownMenu.set(path)
-        dropDownMenu.configure(values=fetchAllApplications())
+        addPath(path)
+        # addPathSQL(path)
+        # addPathMemory(path)
+        # print(f"Fetched data: {fetchPathData()}\n")
+        # header.configure(text=f"{dirLabel()}")
+        # printList()
+        # dropDownMenu.set(path)
+        # dropDownMenu.configure(values=fetchAllApplications())
 
 
 def dirLabel():
@@ -26,6 +28,7 @@ def printList():
 def whenAppIsClosed():
     closeConnection()
     closeConnectionTest()
+    close()
     window.destroy()
 
 

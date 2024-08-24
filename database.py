@@ -55,3 +55,44 @@ def fetchAllApplications():
     return [row[0] for row in testApplications.fetchall()] # So it returns String of list and not tuples
 
 
+########################################################
+#   connecting to database    #
+testCon = sqlite3.connect("test.db")
+testCursor = testCon.cursor()
+
+#   creating table    #
+testCursor.execute('''CREATE TABLE IF NOT EXISTS test (
+                   path TEXT PRIMARY KEY, 
+                   recent BOOLEAN, 
+                   popularity INTEGER)''')
+
+#   update database    #
+def addPath(path): 
+    testCursor.execute('''SELECT path FROM test WHERE path = ?''', (path,))
+    if not testCursor.fetchall(): 
+        # print("not found...")
+        testCursor.execute('''INSERT INTO test (path, recent, popularity) VALUES (?, ?, ?)''', (path, True, 1))
+        # print(testCursor.execute('''SELECT * FROM test''').fetchall())
+    else:
+        elements = testCursor.execute('''SELECT path, recent, popularity FROM test WHERE path = ?''', (path, )).fetchall()
+        # print(elements)
+
+        # recentNum = elements[0][1]
+        popularNum = elements[0][2]
+        testCursor.execute('''UPDATE test SET recent = ?, popularity = ? WHERE path = ?''', (True, popularNum+1, path))
+        
+        # elements = testCursor.execute('''SELECT path, recent, popularity FROM test WHERE path = ?''', (path, )).fetchall()
+        # print(elements)
+
+    testCursor.execute('''UPDATE test SET recent = ? WHERE PATH != ?''', (False, path))
+
+#   Find the most recent pick   #
+def fetchRecent(): 
+    return testCursor.execute('''SELECT path FROM test WHERE recent = ?''', (True, )).fetchall()[0][0]
+
+def getPopularityList(): 
+    print()
+
+def close():
+    testCon.commit()
+    testCon.close()
