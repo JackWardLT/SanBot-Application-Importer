@@ -67,7 +67,7 @@ testCursor.execute('''CREATE TABLE IF NOT EXISTS test (
                    popularity INTEGER)''')
 
 #   update table    #
-def addPath(path): 
+def update(path): 
     testCursor.execute('''SELECT path FROM test WHERE path = ?''', (path,))
     if not testCursor.fetchall(): 
         testCursor.execute('''INSERT INTO test (path, recent, popularity) VALUES (?, ?, ?)''', 
@@ -88,14 +88,12 @@ def fetchRecent():
 
 #   Creating list of popular paths without the recently picked path  #
 def getPopularityList(): 
-    returnList = []
     popularityList = testCursor.execute('''SELECT path, recent, popularity 
                                         FROM test WHERE path != ?''', (fetchRecent(), )).fetchall()
     sortedList = sorted(popularityList, key=lambda x: x[2], reverse=True)
-    
-    for val in sortedList:
-        returnList.append(val[0])
-    return returnList
+    print(sortedList)
+    return [val[0] for val in sortedList]
+
 
 def close():
     testCon.commit()
