@@ -83,8 +83,10 @@ def update(path):
 
 #   Find the most recent pick   #
 def fetchRecent(): 
-    return testCursor.execute('''SELECT path FROM test WHERE recent = ?''', 
-                              (True, )).fetchall()[0][0]
+    result = testCursor.execute('''SELECT path FROM test WHERE recent = ?''', (1,)).fetchone()
+    if result is None:
+        return "none"  
+    return result[0]
 
 #   Creating list of popular paths without the recently picked path  #
 def getPopularityList(): 
