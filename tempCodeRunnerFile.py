@@ -1,0 +1,7 @@
+        # addPathSQL(path)
+        # addPathMemory(path)
+        # print(f"Fetched data: {fetchPathData()}\n")
+        # header.configure(text=f"{dirLabel()}")
+        # printList()
+        # dropDownMenu.set(path)
+        # dropDownMenu.configure(values=fetchAllApplications())
