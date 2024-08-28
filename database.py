@@ -1,7 +1,6 @@
 import sqlite3
 
 
-
 ########################################################
 #   connecting to database    #
 testCon = sqlite3.connect("test.db")
@@ -12,6 +11,7 @@ testCursor.execute('''CREATE TABLE IF NOT EXISTS test (
                    path TEXT PRIMARY KEY, 
                    recent BOOLEAN, 
                    popularity INTEGER)''')
+
 
 #   update table    #
 def update(path): 
