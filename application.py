@@ -13,7 +13,7 @@ def pickDirectory():
         print(f"Selected directory: {path}\n")
         update(path)
         print(fetchRecent())
-        dropDownMenu.set(fetchRecent())
+        dropDownMenu.set(parsePathName(path))
         dropDownMenu.configure(values=getPopularityList())
 
 def whenAppIsClosed():
@@ -31,6 +31,13 @@ def buttonCheck():
             print(f"adb -s {deviceMenu.get()} install {dropDownMenu.get()}{rute}")
         except Exception as e: 
             print(f"error: {e}")
+
+def nameFetch(): return parsePathName(fetchRecent())
+
+def ddmFIX(path):
+    update(path)
+    dropDownMenu.set(nameFetch())
+    
 
 # Initialize customtkinter
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (default), "Dark", "Light"
@@ -50,9 +57,8 @@ tabview1.add("Choose Application")
 # Tab 1 content
 tab1 = tabview1.tab("Choose Application")
 directoryButton = customtkinter.CTkButton(tab1, text="Pick Folder", width=200, command=pickDirectory)
-dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=update, variable=StringVar(value=fetchRecent()), 
-values=getPopularityList(), height=30)
-dropDownMenu.set(fetchRecent())
+dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=ddmFIX, variable=StringVar(value=nameFetch), values=getPopularityList(), height=30)
+dropDownMenu.set(nameFetch())
 
 directoryButton.grid(row=1, column=0, padx=(10, 5))
 dropDownMenu.grid(row=1, column=1, padx=(5, 10))

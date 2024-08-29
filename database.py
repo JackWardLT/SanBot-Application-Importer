@@ -1,6 +1,7 @@
 import sqlite3
 
 
+
 ########################################################
 #   connecting to database    #
 testCon = sqlite3.connect("test.db")
