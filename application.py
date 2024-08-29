@@ -21,14 +21,27 @@ def whenAppIsClosed():
     window.destroy()
 
 def refreshList():
-    print("test")
     deviceMenu.configure(values=upload())
 
+def show_popup_message(message):
+    popup_label.configure(text=message)
+    popup_frame.grid(row=3, column=0, pady=(10, 10), padx=(10, 10), sticky="ew")
+
+def hide_popup_message():
+    popup_frame.grid_forget()
+
 def buttonCheck():
-    if (dropDownMenu.get() != 'none' and deviceMenu.get() != 'none'):
+    if (dropDownMenu.get() != 'none' and deviceMenu.get() != 'none'):   
         try: 
-            subprocess.run(f"adb -s {deviceMenu.get()} install {dropDownMenu.get()}{rute}")
+            install = subprocess.run(f"adb -s {deviceMenu.get()} install -r {dropDownMenu.get()}{rute}",
+                                     capture_output=True, text=True)
+            messages = install.stdout
             print(f"adb -s {deviceMenu.get()} install {dropDownMenu.get()}{rute}")
+            if messages:
+                parsedMessages = messages.splitlines()
+                for message in parsedMessages:
+                    if message == "Success":
+                        show_popup_message("Upload finished!")
         except Exception as e: 
             print(f"error: {e}")
 
@@ -39,7 +52,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (default), "gree
 window = customtkinter.CTk()  # Use CTk instead of Tk
 window.title('SanBot Application Importer')
 
-window.geometry("400x300")  # Set the desired width and height
+# window.geometry("400x320")  # Set the desired width and height
 window.resizable(False, False)  # Disable window resizing
 
 # Tabview 1
@@ -84,6 +97,17 @@ tab3.grid_columnconfigure(0, weight=1)  # Ensure the column expands equally
 pushButton = customtkinter.CTkButton(tab3, text="Push APK", command=buttonCheck, height=30)
 
 pushButton.grid(row=1, column=0, pady=(5, 5), padx=(10, 10), sticky="ew")
+
+#    Popup message   #
+popup_frame = customtkinter.CTkFrame(window)
+popup_label = customtkinter.CTkLabel(popup_frame, text="")
+popup_label.pack(pady=20)
+close_button = customtkinter.CTkButton(popup_frame, text="Close", command=hide_popup_message)
+close_button.pack(pady=10)
+
+# Initially hide the popup frame
+popup_frame.grid_forget()
+
 
 window.protocol("WM_DELETE_WINDOW", whenAppIsClosed)
 window.mainloop()
