@@ -45,6 +45,12 @@ def buttonCheck():
         except Exception as e: 
             print(f"error: {e}")
 
+def updateDropMenu(path): 
+    popList = update(path)
+    dropDownMenu.configure(values = popList)
+
+
+
 # Initialize customtkinter
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (default), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (default), "green", "dark-blue"
@@ -63,8 +69,7 @@ tabview1.add("Choose Application")
 # Tab 1 content
 tab1 = tabview1.tab("Choose Application")
 directoryButton = customtkinter.CTkButton(tab1, text="Pick Folder", width=200, command=pickDirectory)
-dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=update, variable=StringVar(value=fetchRecent()), 
-values=getPopularityList(), height=30)
+dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=updateDropMenu, values=getPopularityList(), height=30)
 dropDownMenu.set(fetchRecent())
 
 directoryButton.grid(row=1, column=0, padx=(10, 5))
