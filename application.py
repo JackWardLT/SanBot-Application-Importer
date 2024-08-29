@@ -13,7 +13,7 @@ def pickDirectory():
         print(f"Selected directory: {path}\n")
         update(path)
         print(fetchRecent())
-        dropDownMenu.set(fetchRecent())
+        dropDownMenu.set(parsePathName(path))
         dropDownMenu.configure(values=getPopularityList())
 
 def whenAppIsClosed():
@@ -33,10 +33,11 @@ def hide_popup_message():
 def buttonCheck():
     if (dropDownMenu.get() != 'none' and deviceMenu.get() != 'none'):   
         try: 
-            install = subprocess.run(f"adb -s {deviceMenu.get()} install -r {dropDownMenu.get()}{rute}",
+            install = subprocess.run(f"adb -s {deviceMenu.get()} install -r {nameFetch()[0]}{rute}",
                                      capture_output=True, text=True)
             messages = install.stdout
             print(f"adb -s {deviceMenu.get()} install {dropDownMenu.get()}{rute}")
+            print(messages)
             if messages:
                 parsedMessages = messages.splitlines()
                 for message in parsedMessages:
@@ -45,11 +46,12 @@ def buttonCheck():
         except Exception as e: 
             print(f"error: {e}")
 
-def updateDropMenu(path): 
+def nameFetch(): return parsePathName(fetchRecent())
+
+def ddmFIX(path):
     popList = update(path)
-    dropDownMenu.configure(values = popList)
-
-
+    dropDownMenu.set(nameFetch()[1])
+    dropDownMenu.configure(values= popList)
 
 # Initialize customtkinter
 customtkinter.set_appearance_mode("dark")  # Modes: "System" (default), "Dark", "Light"
@@ -69,8 +71,8 @@ tabview1.add("Choose Application")
 # Tab 1 content
 tab1 = tabview1.tab("Choose Application")
 directoryButton = customtkinter.CTkButton(tab1, text="Pick Folder", width=200, command=pickDirectory)
-dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=updateDropMenu, values=getPopularityList(), height=30)
-dropDownMenu.set(fetchRecent())
+dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=ddmFIX,  values=getPopularityList(), height=30)
+dropDownMenu.set(nameFetch()[1])
 
 directoryButton.grid(row=1, column=0, padx=(10, 5))
 dropDownMenu.grid(row=1, column=1, padx=(5, 10))

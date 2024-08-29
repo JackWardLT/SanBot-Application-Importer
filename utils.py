@@ -21,3 +21,17 @@ def parseAdbDevices(message):
             devices.append(splitStringes[index-1])
     return devices
 
+def parsePathName(path):
+    if not path:
+        return "none"
+    
+    status = True
+    charToName = []
+    reverseString = path[::-1]
+    
+    for char in reverseString:
+        if char == "\\" or char == "/":
+            break
+        charToName.append(char)
+    
+    return (path, ''.join(charToName[::-1]))
