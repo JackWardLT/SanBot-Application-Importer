@@ -59,14 +59,22 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (default), "gree
 
 window = customtkinter.CTk()  # Use CTk instead of Tk
 window.title('SanBot Application Importer')
+window.iconbitmap(r'C:\Users\larst\Downloads\NTNU.ico')
 
 # window.geometry("400x320")  # Set the desired width and height
 window.resizable(False, False)  # Disable window resizing
 
 # Tabview 1
-tabview1 = customtkinter.CTkTabview(window, height=20) #, segmented_button_selected_color="#D3D3D3", text_color="black"
+tabview1 = customtkinter.CTkTabview(window,
+                                    height=20, 
+                                    segmented_button_selected_hover_color="#3D3D3D", 
+                                    segmented_button_selected_color="#3D3D3D") #, segmented_button_selected_color="#D3D3D3", text_color="black"
 tabview1.grid(row=0, column=0, pady=(10, 5), padx=10)
 tabview1.add("Choose Application")
+
+# Tabview 1 changing the cursor
+for tab_id in tabview1._segmented_button._buttons_dict.values():
+    tab_id.configure(cursor="arrow")
 
 # Tab 1 content
 tab1 = tabview1.tab("Choose Application")
@@ -78,9 +86,16 @@ directoryButton.grid(row=1, column=0, padx=(10, 5))
 dropDownMenu.grid(row=1, column=1, padx=(5, 10))
 
 # Tabview 2
-tabview2 = customtkinter.CTkTabview(window, height=20)
+tabview2 = customtkinter.CTkTabview(window, 
+                                    height=20,
+                                    segmented_button_selected_hover_color="#3D3D3D", 
+                                    segmented_button_selected_color="#3D3D3D")
 tabview2.grid(row=1, column=0, pady=(5, 5), padx=10)
 tabview2.add("Choose Device")
+
+# Tabview 2 changing the cursor
+for tab_id in tabview2._segmented_button._buttons_dict.values():
+    tab_id.configure(cursor="arrow")
 
 # Tab 2 content
 tab2 = tabview2.tab("Choose Device")
@@ -92,9 +107,16 @@ refreshButton.grid(row=1, column=0, padx=(10, 5))
 deviceMenu.grid(row=1, column=1, padx=(5, 10))
 
 # Tabview 3
-tabview3 = customtkinter.CTkTabview(window, height=20)
+tabview3 = customtkinter.CTkTabview(window, 
+                                    height=20,
+                                    segmented_button_selected_hover_color="#3D3D3D", 
+                                    segmented_button_selected_color="#3D3D3D")
 tabview3.grid(row=2, column=0, padx=10,)
 tabview3.add("Upload APK")
+
+# Tabview 2 changing the cursor
+for tab_id in tabview3._segmented_button._buttons_dict.values():
+    tab_id.configure(cursor="arrow")
 
 # Tab 3 content
 tab3 = tabview3.tab("Upload APK")

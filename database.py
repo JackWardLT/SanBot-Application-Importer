@@ -29,8 +29,6 @@ def update(path):
 
     testCursor.execute('''UPDATE test SET recent = ? WHERE PATH != ?''', (False, path))
 
-    return getPopularityList()
-
 #   Find the most recent pick   #
 def fetchRecent(): 
     result = testCursor.execute('''SELECT path FROM test WHERE recent = ?''', (1,)).fetchone()
@@ -40,7 +38,6 @@ def fetchRecent():
 
 #   Creating list of popular paths without the recently picked path  #
 def getPopularityList(): 
-    print("nah bro")
     popularityList = testCursor.execute('''SELECT path, recent, popularity 
                                         FROM test WHERE path != ?''', (fetchRecent(), )).fetchall()
     sortedList = sorted(popularityList, key=lambda x: x[2], reverse=True)
