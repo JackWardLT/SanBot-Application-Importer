@@ -33,5 +33,11 @@ def parsePathName(path):
         if char == "\\" or char == "/":
             break
         charToName.append(char)
+    print(f"len: {len(charToName)}")
+    if len(charToName) >= 14:
+        fix = ''.join(charToName[::-1])
+        return ''.join(fix[:12]) + "..."
     
     return ''.join(charToName[::-1])
+
+
