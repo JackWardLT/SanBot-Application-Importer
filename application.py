@@ -39,48 +39,51 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (default), "gree
 window = customtkinter.CTk()  # Use CTk instead of Tk
 window.title('SanBot Application Importer')
 
-# Frame 1
-frame1 = customtkinter.CTkFrame(window, height=40)
-directoryButton = customtkinter.CTkButton(frame1, text="Pick Folder", width=200, command=pickDirectory)
-dropDownMenu = customtkinter.CTkOptionMenu(frame1, command=update, variable=StringVar(value=fetchRecent()), 
-                                           values=getPopularityList())
+window.geometry("400x300")  # Set the desired width and height
+window.resizable(False, False)  # Disable window resizing
+
+# Tabview 1
+tabview1 = customtkinter.CTkTabview(window, height=20) #, segmented_button_selected_color="#D3D3D3", text_color="black"
+tabview1.grid(row=0, column=0, pady=(10, 5), padx=10)
+tabview1.add("Choose Application")
+
+# Tab 1 content
+tab1 = tabview1.tab("Choose Application")
+directoryButton = customtkinter.CTkButton(tab1, text="Pick Folder", width=200, command=pickDirectory)
+dropDownMenu = customtkinter.CTkOptionMenu(tab1, command=update, variable=StringVar(value=fetchRecent()), 
+values=getPopularityList(), height=30)
 dropDownMenu.set(fetchRecent())
 
-padding= 20
-directoryButton.grid(row=1, column=0, padx=(10, 5), pady=(padding, 10))
-dropDownMenu.grid(row=1, column=1, padx=(5, 10), pady=(padding, 10))
+directoryButton.grid(row=1, column=0, padx=(10, 5))
+dropDownMenu.grid(row=1, column=1, padx=(5, 10))
 
-# Frame 2
-frame2 = customtkinter.CTkFrame(window)
-label2 = customtkinter.CTkLabel(frame2, text="TEXT", anchor="center")
-deviceMenu = customtkinter.CTkOptionMenu(frame2, values=upload())
+# Tabview 2
+tabview2 = customtkinter.CTkTabview(window, height=20)
+tabview2.grid(row=1, column=0, pady=(5, 5), padx=10)
+tabview2.add("Choose Device")
+
+# Tab 2 content
+tab2 = tabview2.tab("Choose Device")
+deviceMenu = customtkinter.CTkOptionMenu(tab2, values=upload(), height=30)
 deviceMenu.set("none")
-refreshButton = customtkinter.CTkButton(frame2, text="Refresh Devices", command=refreshList, width=200)
+refreshButton = customtkinter.CTkButton(tab2, text="Refresh Devices", command=refreshList, width=200, height=30)
 
-label2.grid(row=0, column=0, columnspan=2, pady=(10, 5))
-refreshButton.grid(row=1, column=0, padx=(10, 5), pady=(10, 5))
-deviceMenu.grid(row=1, column=1, padx=(5, 10), pady=(10, 5))
+refreshButton.grid(row=1, column=0, padx=(10, 5))
+deviceMenu.grid(row=1, column=1, padx=(5, 10))
 
-# Frame 3
-frame3 = customtkinter.CTkFrame(window)
-label3 = customtkinter.CTkLabel(frame3, text="TEXT", anchor="center")
-pushButton = customtkinter.CTkButton(frame3, text="Push APK", command=buttonCheck)
+# Tabview 3
+tabview3 = customtkinter.CTkTabview(window, height=20)
+tabview3.grid(row=2, column=0, padx=10,)
+tabview3.add("Upload APK")
 
-label3.grid(row=0, column=0, pady=(10, 5))
-pushButton.grid(row=1, column=0, pady=(5, 10), padx=(10, 10))
+# Tab 3 content
+tab3 = tabview3.tab("Upload APK")
 
-# Place frames
-frame1.grid(row=0, column=0, pady=(22, 5), padx=10,)
-frame2.grid(row=1, column=0, pady=(5, 5), padx=10)
-frame3.grid(row=2, column=0, pady=(5, 10), padx=10)
+# Center the button by using columnspan and grid settings
+tab3.grid_columnconfigure(0, weight=1)  # Ensure the column expands equally
+pushButton = customtkinter.CTkButton(tab3, text="Push APK", command=buttonCheck, height=30)
 
-# Overlapping frame
-overlappingFrame1 = customtkinter.CTkFrame(window, height=70, width=300, fg_color="transparent", border_width=0, corner_radius=20)  # Adjust size and color
-label4 = customtkinter.CTkLabel(overlappingFrame1, text="Choose Project", anchor="center")
-label4.pack(padx=10, pady=2)  # Add padding to ensure text visibility
-
-# Position the overlapping frame with a gap above it
-overlappingFrame1.place(x=145, y=2)  # Adjust x and y to control the gap
+pushButton.grid(row=1, column=0, pady=(5, 5), padx=(10, 10), sticky="ew")
 
 window.protocol("WM_DELETE_WINDOW", whenAppIsClosed)
 window.mainloop()
