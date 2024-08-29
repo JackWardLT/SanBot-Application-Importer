@@ -22,6 +22,7 @@ def parseAdbDevices(message):
     return devices
 
 def parsePathName(path):
+    savedPath = path
     if not path:
         return "none"
     
@@ -33,5 +34,10 @@ def parsePathName(path):
         if char == "\\" or char == "/":
             break
         charToName.append(char)
+    print(f"len: {len(charToName)}")
+    if len(charToName) >= 14:
+
+        fix = ''.join(charToName[::-1])
+        return (savedPath, ''.join(fix[:12]) + "...")
     
-    return (path, ''.join(charToName[::-1]))
+    return (savedPath, ''.join(charToName[::-1]))
